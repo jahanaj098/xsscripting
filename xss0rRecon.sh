@@ -43,19 +43,11 @@ clear
 
 # Display banner
 echo -e "${BOLD_BLUE}"
-echo "               ___         ____                              ____  "
-echo "__  _____ ___ / _ \ _ __  |  _ \ ___  ___ ___  _ __   __   _|___ \ V2"
-echo "\ \/ / __/ __| | | | '__| | |_) / _ \/ __/ _ \| '_ \  \ \ / / __) |"
-echo " >  <\__ \__ \ |_| | |    |  _ <  __/ (_| (_) | | | |  \ V / / __/ "
-echo "/_/\_\___/___/\___/|_|    |_| \_\___|\___\___/|_| |_|   \_/ |_____|"
+echo "  jaahn             ___         ____                              ____  "
+
 echo -e "${NC}"
 
-# Centered Contact Information
-echo -e "${BOLD_BLUE}                      Website: store.xss0r.com${NC}"
-echo -e "${BOLD_BLUE}                      Free BlindXSS Testing: xss0r.com${NC}"
-echo -e "${BOLD_BLUE}                      X: x.com/xss0r${NC}"
 
-# Function to display options
 display_options() {
     echo -e "${BOLD_BLUE}Please select an option:${NC}"
     echo -e "${RED}1: Install all tools${NC}"
@@ -1019,12 +1011,16 @@ run_step_3() {
         return
     fi
 
+
+    user_choice="N"
+
+
     echo -e "${BOLD_WHITE}You selected: Domain Enumeration and Filtering for $domain_name${NC}"
     echo -e "${BOLD_WHITE}Do you want to use your own list of domains or xss0rRecon to find it for you? Enter Y for your list or N for xss0rRecon list - domain list must be in format ${domain_name}-domains.txt: ${NC}"
-    read user_choice
 
     # Convert user input to uppercase
     user_choice=$(echo "$user_choice" | tr '[:lower:]' '[:upper:]')
+
 
     if [[ "$user_choice" == "Y" ]]; then
         if [ -f "${domain_name}-domains.txt" ]; then
@@ -1392,7 +1388,7 @@ sleep 3
 
 
     # New message for the user with Y/N option
-read -p "$(echo -e "${BOLD_WHITE}Your domain file has been created. Would you like to continue scanning your target domain, including all its subdomains? If so, please enter 'Y'. If you prefer to modify the domain file first, so you can delete these and add your domains, enter 'N', and you can manually proceed with step 4 afterwards. Do you want to continue scanning with all subdomains (Y/N)?: ${NC}")" continue_scan
+continue_scan="y" 
 if [[ "$continue_scan" =~ ^[Yy]$ ]]; then
     skip_order_check_for_option_4=true
     echo -e "${BOLD_BLUE}Automatically continuing with step 4: URL Crawling and Filtering...${NC}"
@@ -2148,7 +2144,8 @@ while true; do
             last_completed_option=2
             
             # Automatically proceed to Step 3 after setting the domain name
-            read -p "$(echo -e "${BOLD_WHITE}Do you want to proceed with domain enumeration and filtering for $domain_name (Y/N)?: ${NC}")" proceed_to_step_3
+            proceed_to_step_3="y"
+
             if [[ "$proceed_to_step_3" =~ ^[Yy]$ ]]; then
                 echo -e "${BOLD_BLUE}Automatically continuing with step 3: Domain Enumeration and Filtering for $domain_name...${NC}"
                 run_step_3
