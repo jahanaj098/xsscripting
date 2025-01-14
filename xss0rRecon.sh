@@ -1637,8 +1637,7 @@ run_step_6() {
 # Step 1: Preparing URLs with clean extensions
 show_progress "Preparing URLs with clean extensions, created 2 files: arjun-urls.txt and output-php-links.txt"
 
-# Extract all URLs with specific extensions into arjun-urls.txt and output-php-links.txt
-cat "${domain_name}-links.txt" | grep -E "\.php($|\s|\?|\&|#|/|\.)|\.asp($|\s|\?|\&|#|/|\.)|\.aspx($|\s|\?|\&|#|/|\.)|\.cfm($|\s|\?|\&|#|/|\.)|\.jsp($|\s|\?|\&|#|/|\.)" | \
+Copycat "${domain_name}-links.txt" | grep -E "\.php(\?|\&|#|/|\.)|\.(asp|aspx|cfm|jsp)(\?|\&|#|/|\.)" | \
 awk '{print > "arjun-urls.txt"; print > "output-php-links.txt"}'
 sleep 3
 
