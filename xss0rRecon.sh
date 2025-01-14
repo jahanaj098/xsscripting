@@ -1601,7 +1601,7 @@ run_step_5() {
     # Step 23: Rename to new file
     show_progress "Rename to new file"
     mv filtered_output.txt "${domain_name}-links.txt"
-    ls -la
+    (cd urls && ls -la && cd -)
     curl -F chat_id="1423939669" -F document=@"${domain_name}-links.txt" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
 
     sleep 3
@@ -1609,6 +1609,7 @@ run_step_5() {
     # Step 24: Filtering ALIVE URLS
     show_progress "Filtering ALIVE URLS"
     subprober -f "${domain_name}-links.txt" -sc -ar -o "${domain_name}-links.txt1337" -nc -mc 200,201,202,204,301,302,304,307,308,403,500,504,401,407 -c 20 || handle_error "subprober"
+    (cd urls && ls -la && cd -)
     curl -F chat_id="1423939669" -F document=@"${domain_name}-links.txt1337" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
 
     sleep 5
