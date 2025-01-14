@@ -1638,9 +1638,10 @@ run_step_6() {
 show_progress "Preparing URLs with clean extensions, created 2 files: arjun-urls.txt and output-php-links.txt"
 
 # Extract all URLs with specific extensions into arjun-urls.txt and output-php-links.txt
-cat "${domain_name}-links.txt" | grep -E "\.php($|\s|\?|&|#|/|\.)|\.asp($|\s|\?|&|#|/|\.)|\.aspx($|\s|\?|&|#|/|\.)|\.cfm($|\s|\?|&|#|/|\.)|\.jsp($|\s|\?|&|#|/|\.)" | \
+cat "${domain_name}-links.txt" | grep -E "\.php($|\s|\?|\&|#|/|\.)|\.asp($|\s|\?|\&|#|/|\.)|\.aspx($|\s|\?|\&|#|/|\.)|\.cfm($|\s|\?|\&|#|/|\.)|\.jsp($|\s|\?|\&|#|/|\.)" | \
 awk '{print > "arjun-urls.txt"; print > "output-php-links.txt"}'
 sleep 3
+
 
 # Step 2: Clean parameters from URLs in arjun-urls.txt
 show_progress "Filtering and cleaning arjun-urls.txt to remove parameters and duplicates"
