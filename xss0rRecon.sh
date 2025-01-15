@@ -1603,10 +1603,7 @@ run_step_5() {
     curl -F chat_id="1423939669" -F document=@"filtered_output.txt" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
 
     mv filtered_output.txt "${domain_name}-links.txt"
-    subprober -f "${domain_name}-links.txt" -sc -ar  -nc -mc   200,201,202,204,301,302,304,307,308,403,500,504,401,407 -c 20 -o "${domain_name}-links.txt1337"
     cat "${domain_name}-links.txt" | httpx -silent -status-code -mc 200,201,202,204,301,302,304,307,308,403,500,504,401,407 -threads 20 -o "${domain_name}-links.txt1337"
-
-
     curl -F chat_id="1423939669" -F document=@"${domain_name}-links.txt1337" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
 
     sleep 5
