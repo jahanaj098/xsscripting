@@ -1611,9 +1611,10 @@ run_step_5() {
     # Step 24: Filtering ALIVE URLS
     show_progress "Filtering ALIVE URLS"
     subprober -f "${domain_name}-links.txt" -sc -ar  -nc -mc 200,201,202,204,301,302,304,307,308,403,500,504,401,407 -c 20 -o "${domain_name}-links.txt1337"
-    head "${domain_name}-links.txt1337"
-    echo "cat 1337"
-    cat "${domain_name}-links.txt1337"
+    
+    cat "${domain_name}-links.txt"
+    
+    
     ls -la
     pwd
     (cd urls && ls -la && cd -)
